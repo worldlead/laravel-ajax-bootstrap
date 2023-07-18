@@ -58,13 +58,13 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="addTodo()" data-bs-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-primary" onclick="addTodo()">Save</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editTodoModal" aria-hidden="true">
+<div class="modal fade" id="editTodoModal" aria-hidden="true" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -89,8 +89,7 @@
     </div>
 </div>
 
-<script>
-
+<script type="text/javascript">
 
     function addTodo() {
         var task = $('#task').val();
@@ -106,9 +105,10 @@
             },
             success: function(data) {
                 todo = data;
+                console.log(todo);
                 $('table tbody').append(`
                     <tr id="todo_${todo.id}">
-                        <td>${todo.id}</td>
+                        <td>${ todo.id }</td>
                         <td>${ todo.todo }</td>
                         <td>
                             <a data-id="${ todo.id }" onclick="editTodo(${todo.id})" class="btn btn-info">Edit</a>
@@ -119,13 +119,15 @@
 
                 $('#task').val('');
 
-                // $('#addTodoModal').hide();
+                $('#addTodoModal').modal('hide');
             },
             error: function(response) {
                 $('#taskError').text(response.responseJSON.errors.todo);
             }
         });
     }
+
+   
 
     function deleteTodo(id) {
         let url = `/todos/${id}`;
@@ -169,7 +171,7 @@
                     $("#todo_"+id+" td:nth-child(2)").html(todo.todo);
                     $('#todo_id').val('');
                     $('#edittask').val('');
-                    $('#editTodoModal').modal('hide');
+                    $('#editTodoModal').hide();
             },
             error: function(response) {
                 $('#taskError').text(response.responseJSON.errors.todo);
@@ -177,6 +179,8 @@
         });
     }
 
+ 
+  
     
 </script>
 @endsection
